@@ -10,8 +10,8 @@
 #
 # easy_install pip
 # pip install bottle
-
-from bottle import route, get, request, run, template, static_file
+import os
+from bottle import route, get, post, request, run, template, static_file, error
 try:
     import StringIO # NB: don't use cStringIO since it doesn't support unicode!!!
 except:
@@ -42,6 +42,7 @@ def index(filepath):
 @route('/web_exec_py3.py')
 @route('/LIVE_exec_py2.py')
 @route('/LIVE_exec_py3.py')
+
 def get_py_exec():
   out_s = StringIO.StringIO()
 
@@ -60,6 +61,50 @@ def get_py_exec():
 
   return out_s.getvalue()
 
+#Define route
+@route('/')
+def server_static(filepath="index.html"):
+    return static_file(filepath, root='./public/')
+
+@route('/visualize')
+def server_static(filepath="visualize.html"):
+    return static_file(filepath, root='./public/')
+
+@route('/live')
+def server_static(filepath="live.html"):
+    return static_file(filepath, root='./public/')
+
+@error(404)
+def error404(error):
+    return '404 - the requested page could not be found' 
+
+#example login
+def check_login(username, password):
+  if username == "name" and password == "password":
+    return True
+  else:
+    return False
+
+@route('/login')
+def login():
+  return '''
+    <form action="/login" method="post">
+      Username: <input name="username" type="text" />
+      Password: <input name="password" type="password" />
+      <input value="Login" type="submit" />
+  '''
+
+@post('/login')
+def do_login():
+  username = request.forms.get('username')
+  password = request.forms.get('password')
+  if check_login(username, password):
+    return "<p>Your login information was correct.</p>"
+  else:
+    return "<p>Login failed.</p>"
+
+
+
 
 if __name__ == "__main__":
-    run(host='localhost', port=8003, reloader=True)
+    run(host='localhost', port=8080, reloader=True, debug=True)

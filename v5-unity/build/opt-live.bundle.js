@@ -23467,7 +23467,7 @@ var OptFrontend = (function (_super) {
     };
     OptFrontend.prototype.openLiveModeUrl = function () {
         var myArgs = this.getAppState();
-        var urlStr = $.param.fragment('live.html', myArgs, 2 /* clobber all */);
+        var urlStr = $.param.fragment('live', myArgs, 2 /* clobber all */);
         window.open(urlStr); // open in new tab
         return false; // to prevent default "a href" click action
     };

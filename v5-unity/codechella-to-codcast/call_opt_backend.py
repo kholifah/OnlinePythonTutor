@@ -28,7 +28,7 @@ import json
 import requests
 import sys
 
-'http://localhost:8003/'
+'http://localhost:8080/'
 
 pyToUrl = {
     '2': 'web_exec_py2.py',
@@ -47,8 +47,8 @@ def call_opt_backend(myAppState, useBackupUrl=False):
     py = myAppState['py']
     url = pyToUrl[py]
     if py in ('2', '3'):
-        #mainUrl = 'http://localhost:8003/' + url
-        mainUrl = 'http://pythontutor.com/' + url
+        mainUrl = 'http://localhost:8080/' + url
+        # mainUrl = 'http://pythontutor.com/' + url
         backupUrl = None
     else:
         assert py in ('c', 'cpp', 'ruby', 'js', 'ts', 'java')
